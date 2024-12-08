@@ -1,22 +1,20 @@
 #!/bin/bash
 
-if [ -z "$1" ]; then
-    echo "Usage: $0 <file.c>"
-    exit 1
-fi
-file="$1"
-if [ ! -f "$file" ]; then
-    echo "Error: File '$file' does not exist."
+c_file="program.c"
+
+if [ ! -f "$c_file" ]; then
+    echo "Файл $c_file не найден."
     exit 1
 fi
 
-output="${file%.*}"  # Имя файла без расширения
-gcc "$file" -o "$output" -std=c11 -Wall -Wextra
+output_file="program"
 
-if [ $? -ne 0 ]; then
-    echo "Compilation failed."
+
+gcc "$c_file" -o "$output_file"
+
+if [ $? -eq 0 ]; then
+    ./"$output_file"
+else
+    echo "Ошибка компиляции."
     exit 1
 fi
-
-echo "Running $output..."
-./"$output"
